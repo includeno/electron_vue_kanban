@@ -3,8 +3,13 @@ dist/electron/*
 dist/web/*
 build/*
 !build/icons
-node_modules/
+node_modules
 npm-debug.log
 npm-debug.log.*
 thumbs.db
 !.gitkeep
+__pycache__
+
+#只保留demo文件
+!data/demo.json
+data/

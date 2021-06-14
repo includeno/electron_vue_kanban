@@ -15,7 +15,7 @@ def generate_check_list():
         ]
     }
     data.update({"check_list_title": random_str()})
-    for i in range(random.randint(1,7)):
+    for i in range(random.randint(0,7)):
         next=random.randint(0,100)
         item={}
         name="check_list_items"+random_str()
@@ -64,9 +64,10 @@ def generate_cardlist():
         cardlist['cardlist'].append(generate_cardlist_item(i,generate_card()))
     return cardlist
 
+#生成board的数据
 def generate_board():
     board={"boardname":"boardname_1","boardcardlists":[]}
     for i in range(random.randint(1,10)):
         board['boardcardlists'].append(generate_cardlist())
     return board
-#print(get_json(generate_board()))
+

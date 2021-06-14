@@ -1,6 +1,6 @@
 <template>
   <span class="js-badges">
-    <div class="badge js-checkitems-badge" title="title">
+    <div class="badge js-checkitems-badge" title="title" v-if="checklist!=null">
       <span class="badge-icon icon-sm icon-checklist"></span>
       <span class="badge-text js-checkitems-badge-text">
         {{ completedTaskCount }}/{{ totalTaskCount }}
