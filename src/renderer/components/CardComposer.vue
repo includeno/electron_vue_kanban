@@ -32,7 +32,7 @@ export default {
   },
   components: {},
   mounted:function(){
-    console.log("boardcardlist_index:"+this.boardcardlist_index)
+    // console.log("boardcardlist_index:"+this.boardcardlist_index)
   },
   methods: {
     //显示add card按钮

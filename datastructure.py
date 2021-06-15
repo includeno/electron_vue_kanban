@@ -27,7 +27,9 @@ def generate_check_list():
         data['check_list_items'].append(item)
     return data
 
-
+def default_card():
+    card={"title": "example",}
+    return card
 def generate_card():
     card = {
         "laebl": [
@@ -66,7 +68,7 @@ def generate_cardlist():
 
 #生成board的数据
 def generate_board():
-    board={"boardname":"boardname_1","boardcardlists":[]}
+    board={"boardid":random_str()[:8],"boardname":random_str(),"boardcardlists":[]}
     for i in range(random.randint(1,10)):
         board['boardcardlists'].append(generate_cardlist())
     return board
