@@ -14,6 +14,14 @@ npm run dev
 # build electron application for production
 npm run build
 
+yarn
+yarn run dev
+yarn run build
+
+
+yarn add vuedraggable
+https://classic.yarnpkg.com/en/package/vuedraggable
+
 
 ```
 

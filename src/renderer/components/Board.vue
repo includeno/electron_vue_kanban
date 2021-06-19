@@ -8,11 +8,13 @@
       :key="index"
     >
       <CardListHeader v-bind:header="boardcardlist.header"></CardListHeader>
+      <br>
       <CardList v-bind:cardlist="boardcardlist.cardlist"></CardList>
-      <CardComposer
+      <br>
+      <!-- <CardComposer
         v-bind:boardcardlist_index="index"
         @add_card="add_card_to_list(arguments)"
-      ></CardComposer>
+      ></CardComposer> -->
     </div>
   </div>
 </template>
@@ -28,6 +30,7 @@ export default {
   data() {
     return {
       origindata: [], //存储cardList的数组
+      
     };
   },
   mounted: function () {
@@ -70,6 +73,8 @@ export default {
         
       });
     },
+    
+    
   },
   components: {
     CardList,

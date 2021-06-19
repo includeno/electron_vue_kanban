@@ -3,7 +3,7 @@
 <template>
   <div id="app">
     <!-- <router-view></router-view> -->
-    <h4>查看队伍Team</h4>
+    <h4>查看队伍/Team</h4>
     <select v-model="selected">
       <option
         v-for="(option, index) in options"
@@ -15,6 +15,7 @@
     </select>
     <span>Selected: {{ selected }}</span>
     <Board v-bind:boardid="lastselected" v-if="lastselected != ''"></Board>
+    
   </div>
 </template>
 

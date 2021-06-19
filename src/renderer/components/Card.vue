@@ -1,5 +1,5 @@
 <template>
-    <div class="list-card">
+    <div aria-hidden="true" class="list-card">
         <CardDetail class="list-card-details" :card="card_info.card"></CardDetail>
     </div>
 </template>
@@ -42,7 +42,7 @@ export default {
 }
 .list-card-details {
     overflow: hidden;
-    padding: 6px 8px 2px;
+    padding: 6px 6px 2px 2px;
     position: relative;
     z-index: 10;
 }
