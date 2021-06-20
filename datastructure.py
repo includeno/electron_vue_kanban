@@ -28,7 +28,7 @@ def generate_check_list():
     return data
 
 def default_card():
-    card={"title": "example",}
+    card={"title": "example","edit":False,"buttonOption":False,}
     return card
 def generate_card():
     card = {
@@ -36,6 +36,8 @@ def generate_card():
             {"labelname": "blue"}
         ],
         "title": "",
+        "edit":False,
+        "buttonOption":False,
         "checklist": [
             # {
             #     "check_list_title": "",
@@ -47,7 +49,7 @@ def generate_card():
         ]
     }
     card.update({"title": "card_title"+random_str()})
-    for i in range(random.randint(1,7)):
+    for i in range(random.randint(0,5)):
         card['checklist'].append(generate_check_list())
     return card
 

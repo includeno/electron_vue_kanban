@@ -1,26 +1,27 @@
 <template>
   <div class="list-cards u-fancy-scrollbar">
-    
     <draggable
       class="list-group"
-      tag="ul"
+      tag="div"
       v-model="dataInCardList"
       v-bind="dragOptions"
       :move="onMove"
       @start="isDragging = true"
       @end="isDragging = false"
     >
-      <transition-group type="transition" >
-        <div class="list-group-item" v-for="(card, index) in dataInCardList" :key="index">
-          <Card v-bind:card_info="card"></Card>
+      <transition-group name="no" type="transition" tag="div">
+        <div
+          
+          v-for="(card, index) in dataInCardList"
+          :key="index"
+        >
+          <Card v-bind:cardinfo="card"></Card>
         </div>
-        
       </transition-group>
     </draggable>
-    <div v-if="dataInCardList.length>0">
-      {{listString}}
+    <div style="white-space: normal;" v-if="dataInCardList.length > 0">
+      {{ listString }}
     </div>
-    
   </div>
 </template>
 
@@ -33,14 +34,14 @@ export default {
   props: ["cardlist"],
   data() {
     return {
-      data:[],
+      data2: [],
       editable: true,
       isDragging: false,
       delayedDragging: false,
     };
   },
   mounted: function () {
-    this.data=this.cardlist;
+    this.data2 = this.cardlist;
   },
   components: {
     Card,
@@ -49,7 +50,7 @@ export default {
   computed: {
     dragOptions() {
       return {
-        animation: 0,
+        animation: 20,
         group: "description",
         disabled: !this.editable,
         ghostClass: "ghost",
@@ -60,24 +61,36 @@ export default {
     },
     dataInCardList: {
       get() {
-        return this.data;
+        return this.data2;
       },
-      set(newValue){
-            console.log('computed setter...'+newValue);
-            this.data=newValue;
-            return this.data;
+      set(newValue) {
+        console.log("newValue===''..." + newValue==='');
+        console.log("newValue==''..." + newValue=='');
+        console.log("newValue===null..." + newValue===null);
+        console.log("newValue==null..." + newValue==null);
+        if (newValue != null && newValue!=="") {
+          //位置发生了改变
+          console.log("computed setter..." + newValue.length);
+          this.data2 = newValue;
+          
         }
+        else{
+          //返回原位置
+          
+        }
+        return this.data2;
+      },
     },
   },
   methods: {
     onMove({ relatedContext, draggedContext }) {
       const relatedElement = relatedContext.element;
       const draggedElement = draggedContext.element;
+
       return (
         (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
       );
     },
-    
   },
 };
 </script>
@@ -91,18 +104,11 @@ export default {
   padding: 0 4px;
   z-index: 1;
   min-height: 0;
-  cursor: pointer;
+  
 }
 .u-fancy-scrollbar {
   -webkit-overflow-scrolling: touch;
   -webkit-transform: translateZ(0);
 }
-.list-group-item {
-  cursor: move;
-}
-.list-group {
-  min-height: 20px;
-}
-
 
 </style>

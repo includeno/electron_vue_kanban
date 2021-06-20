@@ -1,28 +1,27 @@
 <template>
   <div id="board">
-    <h1></h1>
-
+    
     <div
       class="list list-wrapper"
       v-for="(boardcardlist, index) in origindata.boardcardlists"
       :key="index"
     >
       <CardListHeader v-bind:header="boardcardlist.header"></CardListHeader>
-      <br>
+      
       <CardList v-bind:cardlist="boardcardlist.cardlist"></CardList>
       <br>
-      <!-- <CardComposer
+      <CardComposer
         v-bind:boardcardlist_index="index"
         @add_card="add_card_to_list(arguments)"
-      ></CardComposer> -->
+      ></CardComposer>
     </div>
   </div>
 </template>
 
 <script>
-import CardList from "./CardList.vue";
-import CardListHeader from "./CardListHeader.vue";
-import CardComposer from "./CardComposer.vue";
+import CardList from "@/components/CardList";
+import CardListHeader from "@/components/CardListHeader";
+import CardComposer from "@/components/CardComposer";
 import axios from "axios";
 export default {
   name: "Board",
@@ -56,6 +55,8 @@ export default {
         id: String(this.origindata.boardcardlists[index].cardlist.length),
         card: {
           title: title,
+          "edit":false,
+          "buttonOption":false,
         },
       });
       //axios
