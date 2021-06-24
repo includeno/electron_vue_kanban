@@ -46,32 +46,45 @@ def board_info():
     #outputfile.close()
     return jsonify(ret)
 
-@app.route('/card/add', methods=["post"])
+#DONE
+@app.route('/v1/cards', methods=["post"])
 def add_card():
-    boardid=request.form.get("boardid")
-
-    title=request.form.get("title")
-    index=request.form.get("index")
-    cardindex=request.form.get("cardindex")
+    cardListId=request.form.get("cardListId")#required
+    title=request.form.get("title")#optional
     card=datastructure.default_card()
     card['title']=title
-    board=get_board_by_id(boardid)
-    board['boardcardlists'][int(index)]['cardlist'].append({"id":cardindex,"card":card})
-    ret={"code":"1"}
+    
+    cardId=datastructure.random_str()
+    card.update({"id":cardId})
+
+    for board in data:
+        for cardlist in board['boardcardlists']:
+            if(cardlist["cardListId"]==str(cardListId)):
+                cardlist['cardList'].append(card)
+    ret={"code":"1","id":cardId}
     return jsonify(ret)
+
+#DONE
+@app.route('/v1/cards', methods=["put"])
+def update_card():
+    id=request.form.get("id")#required
+    title=request.form.get("title")#optional
+    
+    for board in data:
+        for cardlist in board['boardcardlists']:
+            for card in cardlist["cardList"]:
+                if(card["id"]==str(id)):
+                    card["title"]=title
+    ret={"code":"1","id":id}
+    return jsonify(ret)
+
 @app.route('/boardlist', methods=["get"])
 def board_list():
     boardlist=copy.deepcopy(data)
     for board in boardlist:
-        
         board['boardcardlists']=[]
-        print("board:",board)
+        
     return jsonify(boardlist)
-
-@app.route('/hello', methods=["get"])
-def hello():
-    print("hello world")
-    return "hello world"
 
 if __name__ == '__main__':
     # app.run(host, port, debug, options)

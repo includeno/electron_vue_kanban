@@ -54,18 +54,19 @@ def generate_card():
     return card
 
 
-def generate_cardlist_item(id,card):
+def generate_cardlist_item(card):
     cardlistitem = {
-        "id": str(id),
-        "card":card
+        "id": random_str(),
     }
+    cardlistitem.update(card)
+    
     return cardlistitem
 
 
 def generate_cardlist():
-    cardlist={"header":random_str(),"cardlist":[]}
-    for i in range(random.randint(1,7)):
-        cardlist['cardlist'].append(generate_cardlist_item(i,generate_card()))
+    cardlist={"header":random_str(),"cardList":[],"cardListId":random_str()}
+    for i in range(random.randint(1,10)):
+        cardlist['cardList'].append(generate_cardlist_item(generate_card()))
     return cardlist
 
 #生成board的数据

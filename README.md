@@ -19,9 +19,10 @@ yarn run dev
 yarn run build
 
 
+模块添加
 yarn add vuedraggable
 https://classic.yarnpkg.com/en/package/vuedraggable
-
+yarn add uuid
 
 ```
 

@@ -34,7 +34,7 @@
 // https://github.com/wwjhzc/vue-dialog/tree/master/dialog
 <script>
 import ConfigDialog from "./ConfigDialog";
-import ConfigAPI  from "@/api/ConfigAPI";
+import fs  from "fs";
 import { v4 as uuidv4 } from 'uuid';
 
 const file = "KanbanConfig.json";
@@ -57,9 +57,19 @@ export default {
     };
   },
   mounted() {
-    let config=ConfigAPI.getConfigOrCreate();
-    this.configList=config["configList"]
-    this.activeConfig=config["activeConfig"]
+    //验证配置文件存在
+    
+    
+    // 检查当前目录中是否存在该文件。
+    if (!fs.existsSync(file)) {
+      fs.writeFileSync(file,"");
+      this.configList=[];
+    }
+    else{
+      let config=JSON.parse(fs.readFileSync(file,"utf8"));
+      this.configList=config.configList;
+      this.activeConfig=config.activeConfig;
+    }
   },
   methods: {
     initContent(){
@@ -87,10 +97,10 @@ export default {
       console.log("点击了confirm", content);
       this.sendVal = false;
       //将新配置添加至数组中
-      let id=uuidv4();
       this.configList.push(content);
-      content["id"]=id;
-      ConfigAPI.setConfig(this.configList,id);
+      content["id"]=uuidv4();
+      let config={"configList":this.configList,"activeConfig":this.configList.length-1}
+      fs.writeFileSync(file,JSON.stringify(config));
       this.initContent()
     },
   },

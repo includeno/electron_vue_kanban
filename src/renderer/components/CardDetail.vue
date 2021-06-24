@@ -31,7 +31,7 @@ export default {
   clear: both;
   display: block;
   margin: 0 0 4px;
-  overflow: hidden;
+  /* overflow: hidden; */
   text-decoration: none;
   word-wrap: break-word;
   color: #172b4d;

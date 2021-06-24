@@ -1,35 +1,26 @@
 
 
 <template>
-  <div id="app">
+  <div id="app" >
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-
 import axios from "axios";
 export default {
   name: "eleapp",
   data() {
-    return {
-      
-    };
+    return {};
   },
-  components: {
-    
-
-  },
-  mounted: function () {
-    
-  },
+  components: {},
+  mounted: function () {},
   methods: {},
-  watch: {
-    
-  },
+  watch: {},
 };
 </script>
 
 <style>
 /* CSS */
+
 </style>

@@ -1,40 +1,40 @@
 <template>
-  <div id="board">
-    
+  <div id="board" >
     <div
       class="list list-wrapper"
       v-for="(boardcardlist, index) in origindata.boardcardlists"
       :key="index"
     >
       <CardListHeader v-bind:header="boardcardlist.header"></CardListHeader>
+
+      <CardList v-bind:cardlist="boardcardlist.cardList"></CardList>
       
-      <CardList v-bind:cardlist="boardcardlist.cardlist"></CardList>
-      <br>
       <CardComposer
         v-bind:boardcardlist_index="index"
-        @add_card="add_card_to_list(arguments)"
+        @add_card="createCard(arguments)"
       ></CardComposer>
     </div>
   </div>
 </template>
 
 <script>
+import ConfigAPI from "@/api/ConfigAPI";
+import CardRestAPI from "@/api/CardRestAPI";
 import CardList from "@/components/CardList";
 import CardListHeader from "@/components/CardListHeader";
 import CardComposer from "@/components/CardComposer";
 import axios from "axios";
 export default {
   name: "Board",
-  props:["boardid"],
+  props: ["boardid"],
   data() {
     return {
       origindata: [], //存储cardList的数组
-      
     };
   },
   mounted: function () {
     let formdata = new FormData();
-    formdata.append("boardid",this.boardid)
+    formdata.append("boardid", this.boardid);
     console.log("this.boardid" + this.boardid);
     axios({
       method: "post",
@@ -46,36 +46,24 @@ export default {
     });
   },
   methods: {
-    add_card_to_list(params) {
-      
-      var title = params[0];
-      var index = params[1];
-      var cardindex=this.origindata.boardcardlists[index].cardlist.length;
-      this.origindata.boardcardlists[index].cardlist.push({
-        id: String(this.origindata.boardcardlists[index].cardlist.length),
-        card: {
+    async createCard(params) {
+      let title = params[0];
+      let index = params[1];
+      let cardListId = this.origindata.boardcardlists[index].cardListId;
+
+      let response = await CardRestAPI.createCard(cardListId, title);
+      console.log("cardId response:" + response);
+      if (response.data != null) {
+        let cardId = response.data.id;
+        console.log("cardId:" + cardId);
+        this.origindata.boardcardlists[index].cardList.push({
+          id: cardId,
           title: title,
-          "edit":false,
-          "buttonOption":false,
-        },
-      });
-      //axios
-      let formdata = new FormData();
-      formdata.append("boardid",this.boardid)
-      formdata.append("title",title)
-      formdata.append("index",index)
-      formdata.append("cardindex",cardindex)
-      axios({
-        method: "post",
-        url: "http://localhost:4321/card/add",
-        data: formdata,
-      }).then((response) => {
-        console.log("succeed code" + response.data.code);
-        
-      });
+          edit: false,
+          buttonOption: false,
+        });
+      }
     },
-    
-    
   },
   components: {
     CardList,
@@ -87,19 +75,23 @@ export default {
 
 <style>
 #board {
-  -webkit-user-select: none;
+  max-height: 100%;
   user-select: none;
   white-space: nowrap;
-  margin-bottom: 8px;
-  overflow-x: auto;
+  /* margin-bottom: 30px; */
+  margin-top: 30px;
+  overflow-x: scroll;
   overflow-y: hidden;
   padding-bottom: 8px;
   position: absolute;
-  
+
   right: 0;
-  
   left: 0;
+  top: 0;
+  bottom: 0;
 }
+
+
 .list {
   background-color: #ebecf0;
   border-radius: 3px;
@@ -117,6 +109,7 @@ export default {
   box-sizing: border-box;
   display: inline-block;
   vertical-align: top;
-  white-space: nowrap;
+  bottom: 0;
+  /* white-space: nowrap; */
 }
 </style>

@@ -13,3 +13,7 @@ __pycache__
 #只保留demo文件
 !data/demo.json
 data/
+zzzz.js
+yarn-error.log
+KanbanConfig.json
+target/*

@@ -1,60 +1,94 @@
 <template>
   <div>
-    <div>
+    <div class="surface">
       <button>
         <router-link to="/config">Go to Config</router-link>
       </button>
-      查看队伍/Team
-      <select v-model="selected">
+      <select v-model="selectedConfig">
         <option
-          v-for="(option, index) in options"
+          v-for="(config, index) in configList"
           v-bind:key="index"
-          v-bind:value="option.boardid"
+          v-bind:value="config.id"
         >
-          {{ option.boardname }}
+          {{ config.url }}:{{ config.username }}
         </option>
       </select>
-      <span>Selected: {{ selected }}</span>
-      <Board v-bind:boardid="lastselected" v-if="lastselected != ''"></Board>
+      <span>selectedConfig: {{ selectedConfig }}</span>
+      查看队伍/Team
+      <select v-if="lastSelectedConfig != ''" v-model="selectedTeam">
+        <option
+          v-for="(team, index) in teams"
+          v-bind:key="index"
+          v-bind:value="team.boardid"
+        >
+          {{ team.boardname }}
+        </option>
+      </select>
+      <span v-if="lastSelectedConfig != ''"
+        >selectedTeam: {{ selectedTeam }}</span
+      >
+      <Board
+        v-bind:boardid="lastSelectedTeam"
+        v-if="lastSelectedTeam != ''"
+      ></Board>
     </div>
-
-    
   </div>
 </template>
 
 <script>
+import BoardRestAPI from "@/api/BoardRestAPI";
+import ConfigAPI from "@/api/ConfigAPI";
 import Board from "@/components/Board";
 import axios from "axios";
 export default {
   name: "Team",
   data() {
     return {
-      selected: "",
-      options: [],
-      lastselected: "",
+      selectedTeam: "",
+      teams: [],
+      lastSelectedTeam: "",
+
+      configList: [],
+      selectedConfig: "",
+      lastSelectedConfig: "",
     };
   },
   components: {
     Board,
   },
   mounted: function () {
-    axios({
-      method: "get",
-      url: "http://localhost:4321/boardlist",
-    }).then((response) => {
-      console.log("app mounted succeed" + response.data);
-      this.options = response.data;
-    });
+    this.configList = ConfigAPI.getConfigList();
+    
   },
-  methods: {},
+  methods: {
+    async setTeams() {
+      let response = await BoardRestAPI.getBoardList();
+      console.log("response:" + JSON.stringify(response));
+
+      this.teams = response.data;
+      
+      
+    },
+  },
   watch: {
-    selected: function (val) {
-      if (this.lastselected != this.selected) {
-        let backup = this.selected;
-        this.lastselected = "";
+    //team
+    selectedTeam: function (val) {
+      if (this.lastSelectedTeam != this.selectedTeam) {
+        let backup = this.selectedTeam;
+        this.lastSelectedTeam = "";
         setTimeout(() => {
-          this.lastselected = backup;
-          //console.log("this.selected:" + this.selected);
+          this.lastSelectedTeam = backup;
+        }, 1);
+      }
+    },
+    //config
+    selectedConfig: function (val) {
+      if (this.lastSelectedConfig != this.selectedConfig) {
+        let backup = this.selectedConfig;
+        this.lastSelectedConfig = "";
+        setTimeout(() => {
+          this.lastSelectedConfig = backup;
+          this.setTeams();
         }, 1);
       }
     },
@@ -63,4 +97,9 @@ export default {
 </script>
 
 <style>
+.surface {
+  /* display: flex; */
+  flex-direction: column;
+  height: 100%;
+}
 </style>

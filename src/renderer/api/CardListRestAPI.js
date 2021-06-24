@@ -3,28 +3,20 @@ import ConfigAPI from "@/api/ConfigAPI";
 import axios from "axios";
 
 
-class CardRestAPI {
+class CardListRestAPI {
     constructor() {
 
     }
-
-    async getCard() {
-
-    }
-    async updateCard(id,title) {
+    async getCardList() {
         let config = ConfigAPI.getActiveConfig();
         let host = config["url"];
-        let path = "/v1/cards"
+        let path = "/v1/cardLists"
         let url = host + path;
-        let formdata = new FormData();
-        formdata.append("title", title)
-        formdata.append("id", id)
-        
+
         try {
             let res = await axios({
-                method: "put",
+                method: "get",
                 url: url,
-                data: formdata,
             });
             return new Promise((resolve, reject) => {
                 resolve(res)
@@ -36,16 +28,23 @@ class CardRestAPI {
         }
     }
 
-    //create new Card->link to CardList
-    async createCard(cardListId,title) {
+
+    updateCardList() {
+
+    }
+    //TODO
+
+    //create new CardList->link to Board
+    async createCardList(boardId, title, cardListId) {
         let config = ConfigAPI.getActiveConfig();
         let host = config["url"];
-        let path = "/v1/cards"
+        let path = "/v1/card/create"
         let url = host + path;
         let formdata = new FormData();
+        formdata.append("boardId", boardId)
         formdata.append("title", title)
         formdata.append("cardListId", cardListId)
-        
+
         try {
             let res = await axios({
                 method: "post",
@@ -63,4 +62,4 @@ class CardRestAPI {
     }
 }
 
-export default new CardRestAPI();
+export default new CardListRestAPI();

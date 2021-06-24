@@ -63,6 +63,7 @@ export default {
     },
     confirmBtn() {
       this.$emit("confirm",this.content);
+      
       this.closeMask();
     },
   },
@@ -90,8 +91,8 @@ export default {
   z-index: 9999;
 }
 .dialog-container {
-  width: 500px;
-  height: 380px;
+  width: 35%;
+  height: 50%;
   background: #ffffff;
   position: absolute;
   top: 50%;
