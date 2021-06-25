@@ -78,13 +78,22 @@ def update_card():
     ret={"code":"1","id":id}
     return jsonify(ret)
 
-@app.route('/boardlist', methods=["get"])
+@app.route('/boardList', methods=["get"])
 def board_list():
     boardlist=copy.deepcopy(data)
     for board in boardlist:
         board['boardcardlists']=[]
         
     return jsonify(boardlist)
+
+#team
+@app.route('/teamList', methods=["get"])
+def team_list():
+    ret={}
+        
+    return jsonify(ret)
+
+
 
 if __name__ == '__main__':
     # app.run(host, port, debug, options)

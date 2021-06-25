@@ -79,7 +79,7 @@ export default {
   user-select: none;
   white-space: nowrap;
   /* margin-bottom: 30px; */
-  margin-top: 30px;
+  margin-top: 75px;
   overflow-x: scroll;
   overflow-y: hidden;
   padding-bottom: 8px;

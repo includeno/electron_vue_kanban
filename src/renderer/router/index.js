@@ -13,7 +13,7 @@ export default new Router({
     },
     {
       path: '/',
-      name: 'team-page',
+      name: 'config-page',
       component: Config
     },
     {

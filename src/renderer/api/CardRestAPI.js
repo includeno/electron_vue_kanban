@@ -8,8 +8,50 @@ class CardRestAPI {
 
     }
 
-    async getCard() {
-
+    async getCard(id) {
+        let config = ConfigAPI.getActiveConfig();
+        let host = config["url"];
+        let path = "/v1/cards"+"?id="+id
+        let url = host + path;
+        
+        try {
+            let res = await axios({
+                method: "get",
+                url: url,
+            });
+            return new Promise((resolve, reject) => {
+                resolve(res)
+            })
+        } catch (err) {
+            // return (e.message)
+            alert('服务器出错')
+            console.log(err)
+        }
+    }
+    //create new Card->link to CardList
+    async createCard(cardListId,title) {
+        let config = ConfigAPI.getActiveConfig();
+        let host = config["url"];
+        let path = "/v1/cards"
+        let url = host + path;
+        let formdata = new FormData();
+        formdata.append("title", title)
+        formdata.append("cardListId", cardListId)
+        
+        try {
+            let res = await axios({
+                method: "post",
+                url: url,
+                data: formdata,
+            });
+            return new Promise((resolve, reject) => {
+                resolve(res)
+            })
+        } catch (err) {
+            // return (e.message)
+            alert('服务器出错')
+            console.log(err)
+        }
     }
     async updateCard(id,title) {
         let config = ConfigAPI.getActiveConfig();
@@ -36,31 +78,7 @@ class CardRestAPI {
         }
     }
 
-    //create new Card->link to CardList
-    async createCard(cardListId,title) {
-        let config = ConfigAPI.getActiveConfig();
-        let host = config["url"];
-        let path = "/v1/cards"
-        let url = host + path;
-        let formdata = new FormData();
-        formdata.append("title", title)
-        formdata.append("cardListId", cardListId)
-        
-        try {
-            let res = await axios({
-                method: "post",
-                url: url,
-                data: formdata,
-            });
-            return new Promise((resolve, reject) => {
-                resolve(res)
-            })
-        } catch (err) {
-            // return (e.message)
-            alert('服务器出错')
-            console.log(err)
-        }
-    }
+    
 }
 
 export default new CardRestAPI();
